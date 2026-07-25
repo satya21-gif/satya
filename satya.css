@@ -530,3 +530,36 @@ input::placeholder {
     border: 1px solid rgba(255, 75, 145, 0.2);
     box-shadow: 0 0 50px rgba(255, 75, 145, 0.1);
 }
+/* --- Countdown Timer Styles --- */
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.time-box {
+    background: rgba(255, 75, 145, 0.15);
+    border: 1px solid rgba(255, 75, 145, 0.4);
+    border-radius: 12px;
+    padding: 15px;
+    min-width: 80px;
+    box-shadow: 0 0 15px rgba(255, 75, 145, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.time-box span {
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.time-box p {
+    font-size: 14px;
+    color: #ffb3d1;
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}

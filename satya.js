@@ -390,3 +390,46 @@ function animateFireworks() {
         }
     }
 }
+// --- Countdown Timer Logic ---
+
+// CHANGE THIS DATE TO HER BIRTHDAY OR YOUR ANNIVERSARY
+const targetDate = new Date("October 15, 2026 00:00:00").getTime(); 
+
+function revealTimer() {
+    // Hide the button
+    document.getElementById("reveal-timer-btn").classList.add("hidden");
+    
+    // Show the timer container
+    const timerContainer = document.getElementById("countdown-container");
+    timerContainer.classList.remove("hidden");
+    
+    // Slight delay to allow the CSS to apply before fading it in smoothly
+    setTimeout(() => {
+        timerContainer.style.opacity = 1;
+    }, 50);
+
+    // Start updating the clock every 1 second
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Run immediately so it doesn't wait 1 second to appear
+}
+
+function updateCountdown() {
+    const now = new Date().getTime();
+    const timeLeft = targetDate - now;
+
+    if (timeLeft > 0) {
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        // Add a leading zero if the number is less than 10 (e.g., "09" instead of "9")
+        document.getElementById("cd-days").innerText = days < 10 ? "0" + days : days;
+        document.getElementById("cd-hours").innerText = hours < 10 ? "0" + hours : hours;
+        document.getElementById("cd-mins").innerText = minutes < 10 ? "0" + minutes : minutes;
+        document.getElementById("cd-secs").innerText = seconds < 10 ? "0" + seconds : seconds;
+    } else {
+        // What happens when the countdown hits zero!
+        document.getElementById("countdown-container").innerHTML = "<h2 class='glow-text'>The day is finally here! ❤️</h2>";
+    }
+}
