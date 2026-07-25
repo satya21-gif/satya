@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Universe ❤️</title>
+    <link rel="stylesheet" href="satya.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <!-- The Flash Effect Overlay (This creates the hyperspace jump) -->
+    <div id="flash-overlay"></div>
+
+    <!-- Background Stars -->
+    <canvas id="stars"></canvas>
+
+    <!-- Scene 1: The Intro -->
+    <div id="intro-scene" class="scene active">
+        <p class="fade-text" id="intro-text-1">Some stories are written in books...</p>
+        <p class="fade-text delay-1" id="intro-text-2">...ours was written in the stars.</p>
+        <p class="fade-text delay-2" id="intro-text-3">— Satya ❤️</p>
+        <button class="fade-text delay-3 btn" onclick="startJourney()">Begin the Journey</button>
+    </div>
+
+    <!-- Scene 2: The Secret Gate -->
+    <div id="login-scene" class="scene hidden">
+        <div class="glass-card" id="login-card">
+            <h2>Welcome, Kalyani ❤️</h2>
+            <p>Some places are meant for everyone.<br>This one isn't.</p>
+            
+            <div id="input-area">
+                <input type="password" id="secret-word" placeholder="Enter our secret word">
+                <button class="btn unlock-btn" onclick="checkSecret()">Unlock My Universe ❤️</button>
+            </div>
+            
+            <p id="message-box"></p>
+            <button id="reset-btn" class="btn hidden" onclick="resetGate()">Return to the Stars</button>
+        </div>
+    </div>
+
+    <!-- Scene 3: Success & Poetry -->
+    <div id="success-scene" class="scene hidden">
+        <h1 class="glow-text fade-text" id="welcome-text">Welcome, Kalyani ❤️</h1>
+        
+        <div id="poetry-container" class="hidden">
+             <p class="poetry" id="line1"></p>
+             <p class="poetry" id="line2"></p>
+             <p class="poetry" id="line3"></p>
+             <p class="poetry" id="line4"></p>
+             <p class="poetry highlight-poetry" id="line5"></p>
+    
+    <button class="btn hidden" id="explore-btn" onclick="startTimeline()" style="margin-top: 40px; opacity: 0; transition: opacity 2s;">
+        Explore Our Universe
+    </button>
+    </div>
+    </div>
+<!-- Scene 4: The Cinematic Timeline -->
+    <div id="timeline-scene" class="scene hidden scrollable">
+        <!-- Spacer pushes the first item down so it starts in the middle of the screen -->
+        <div style="height: 30vh;"></div> 
+        
+        <h2 class="glow-text" style="font-size: 42px; margin-bottom: 10vh;">Our Constellation ❤️</h2>
+
+        <div class="cinematic-timeline">
+            <!-- Memory 1 -->
+            <div class="memory-card">
+                <div class="memory-date">The Beginning</div>
+                <h3 class="memory-title">When We First Met</h3>
+                <p class="memory-desc">The day the stars aligned and our story began. A moment I'll never forget.</p>
+            </div>
+            
+            <!-- Memory 2 -->
+            <div class="memory-card">
+                <div class="memory-date">Our First Date</div>
+                <h3 class="memory-title">Coffee & Conversations</h3>
+                <p class="memory-desc">Hours felt like seconds. I knew right then that you were someone special.</p>
+            </div>
+            
+            <!-- Memory 3 -->
+            <div class="memory-card">
+                <div class="memory-date">The Day I Knew</div>
+                <h3 class="memory-title">Falling For You</h3>
+                <p class="memory-desc">Realizing that my favorite place in the whole universe was simply wherever you were.</p>
+            </div>
+
+            <!-- Memory 4 -->
+            <div class="memory-card">
+                <div class="memory-date">Forever</div>
+                <h3 class="memory-title">To Be Continued...</h3>
+                <p class="memory-desc">Every single day with you becomes my new favorite memory.</p>
+            </div>
+        </div>
+        
+        <div style="height: 20vh;"></div> <!-- Spacer before the button -->
+        <button class="btn" onclick="nextMilestone()" style="margin: 0 auto 100px auto; display: block;">Open the Memory Gallery</button>
+    </div>
+    <!-- Scene 5: The Memory Gallery -->
+    <div id="gallery-scene" class="scene hidden scrollable">
+        <div style="height: 10vh;"></div>
+        
+        <h2 class="glow-text">Fragments of Us 📸</h2>
+        <p style="color: #b0b0c0; margin-bottom: 50px; font-size: 18px;">Tap a memory to see what's hidden behind it...</p>
+
+        <div class="gallery-container">
+            <!-- Polaroid 1 -->
+            <div class="polaroid-wrapper" onclick="flipCard(this)">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <!-- You will replace this placeholder with an actual <img> tag later -->
+                        <div class="image-placeholder">Your Photo Here</div>
+                        <div class="polaroid-caption">That Special Day</div>
+                    </div>
+                    <div class="polaroid-back">
+                        <p class="poetry" style="font-size: 32px; color: #ffb3d1;">Your smile in this moment made my heart skip a beat.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Polaroid 2 -->
+            <div class="polaroid-wrapper" onclick="flipCard(this)">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <div class="image-placeholder">Your Photo Here</div>
+                        <div class="polaroid-caption">Lost in your eyes</div>
+                    </div>
+                    <div class="polaroid-back">
+                        <p class="poetry" style="font-size: 32px; color: #ffb3d1;">I could stare into your eyes for a lifetime and never get bored.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Polaroid 3 -->
+            <div class="polaroid-wrapper" onclick="flipCard(this)">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <div class="image-placeholder">Your Photo Here</div>
+                        <div class="polaroid-caption">Perfect Chaos</div>
+                    </div>
+                    <div class="polaroid-back">
+                        <p class="poetry" style="font-size: 32px; color: #ffb3d1;">Even on the craziest days, you are my absolute peace.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Polaroid 4 -->
+            <div class="polaroid-wrapper" onclick="flipCard(this)">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <div class="image-placeholder">Your Photo Here</div>
+                        <div class="polaroid-caption">Just Us</div>
+                    </div>
+                    <div class="polaroid-back">
+                        <p class="poetry" style="font-size: 32px; color: #ffb3d1;">Every picture of you is my favorite picture.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="btn" onclick="nextMilestoneGallery()" style="margin: 80px auto 100px auto; display: block;">Open the Love Letters</button>
+    </div>
+    <!-- Scene 5: Love Letters -->
+    <div id="letters-scene" class="scene hidden scrollable">
+        <div style="height: 10vh;"></div>
+        
+        <h2 class="glow-text">Open When... 💌</h2>
+        <p style="color: #b0b0c0; margin-bottom: 60px; font-size: 18px;">Words for you when I can't be right there beside you.</p>
+
+        <div class="envelopes-container">
+            <!-- Envelope 1 -->
+            <div class="envelope-wrapper" onclick="openLetter('miss-me')">
+                <div class="envelope-label">You Miss Me</div>
+            </div>
+            
+            <!-- Envelope 2 -->
+            <div class="envelope-wrapper" onclick="openLetter('sad')">
+                <div class="envelope-label">You Feel Sad</div>
+            </div>
+            
+            <!-- Envelope 3 -->
+            <div class="envelope-wrapper" onclick="openLetter('hug')">
+                <div class="envelope-label">You Need a Hug</div>
+            </div>
+        </div>
+
+        <button class="btn" onclick="nextMilestoneLetters()" style="margin: 80px auto 100px auto; display: block;">Discover the Next Surprise</button>
+    </div>
+
+    <!-- The Letter Popup (Modal) -->
+    <div id="letter-modal">
+        <div class="letter-paper">
+            <div class="close-btn" onclick="closeLetter()">✖</div>
+            <!-- The letter text will be injected here by Javascript -->
+            <div id="letter-content" class="letter-text"></div>
+        </div>
+    </div>
+    <!-- Scene 6: 100 Reasons -->
+    <div id="reasons-scene" class="scene hidden">
+        <h2 class="glow-text">100 Reasons Why ❤️</h2>
+        <p style="color: #b0b0c0; margin-bottom: 30px; font-size: 18px;">Some of the infinite reasons I fell for you.</p>
+
+        <div id="reason-container" class="glass-card" style="margin: 0 auto 40px auto; min-height: 250px; display: flex; flex-direction: column; justify-content: center; transition: opacity 0.5s ease;">
+            <div id="reason-number" style="font-size: 18px; color: #ffb3d1; font-weight: bold; letter-spacing: 2px; margin-bottom: 20px;">REASON #1</div>
+            <div id="reason-text" class="poetry" style="font-size: 34px; line-height: 1.4;">Because of the way your eyes light up when you smile.</div>
+        </div>
+
+        <button class="btn pulse-btn" onclick="generateNextReason()">Show me another reason</button>
+        
+        <!-- This button stays hidden until she reads at least a few reasons -->
+        <button id="finale-btn" class="btn hidden" onclick="startFinale()" style="margin-top: 40px; display: block; margin-left: auto; margin-right: auto; background: transparent; border-color: rgba(255,255,255,0.2);">
+            Unlock the Final Surprise
+        </button>
+    </div>
+    <!-- Scene 7: The Grand Finale -->
+    <div id="finale-scene" class="scene hidden">
+        <!-- Fireworks Canvas (Sits behind the text, in front of the stars) -->
+        <canvas id="fireworks-canvas"></canvas>
+        
+        <div class="finale-content">
+            <h1 class="glow-text fade-text" style="font-size: 56px;">Satya ❤️ Kalyani</h1>
+            <p class="fade-text delay-1 poetry highlight-poetry" style="font-size: 42px; margin-top: 20px;">
+                Every line of code led me to you.
+            </p>
+            <p class="fade-text delay-2" style="color: #b0b0c0; font-size: 18px; margin-top: 50px; letter-spacing: 2px;">
+                FOREVER & ALWAYS
+            </p>
+        </div>
+    </div>
+    
+
+    <script src="satya.js"></script>
+</body>
+</html>

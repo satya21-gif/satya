@@ -1,0 +1,532 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #020412;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.scene {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 1.5s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.scene.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Typography & Animations */
+.fade-text {
+    font-size: 20px;
+    font-weight: 300;
+    margin: 10px 0;
+    opacity: 0;
+    animation: fadeIn 3s forwards;
+}
+
+.delay-1 { animation-delay: 2s; }
+.delay-2 { animation-delay: 4s; }
+.delay-3 { animation-delay: 6s; }
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* Premium Buttons */
+.btn {
+    margin-top: 30px;
+    padding: 12px 30px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.unlock-btn {
+    background: rgba(255, 75, 145, 0.4);
+    border: 1px solid rgba(255, 75, 145, 0.6);
+}
+
+.unlock-btn:hover {
+    background: rgba(255, 75, 145, 0.6);
+    box-shadow: 0 0 20px rgba(255, 75, 145, 0.4);
+}
+
+/* Glassmorphism Card */
+.glass-card {
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(25, 25, 35, 0.4);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+}
+
+.glass-card h2 {
+    font-weight: 400;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.glass-card p {
+    color: #b0b0c0;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#message-box {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #ffb3d1;
+    min-height: 40px;
+    transition: opacity 0.5s;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.glow-text {
+    font-size: 48px;
+    font-weight: 300;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}/* Milestone 2 Additions */
+.delay-4 { animation-delay: 8s; }
+.delay-5 { animation-delay: 11s; }
+.delay-6 { animation-delay: 14s; }
+
+.poetry {
+    font-family: 'Dancing Script', cursive; 
+    font-size: 38px;
+    font-weight: 500;
+    margin: 15px 0;
+    color: #e0e0ff;
+    min-height: 45px; 
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.highlight-poetry {
+    font-size: 46px;
+    color: #ffb3d1;
+    font-weight: 700;
+    margin-top: 25px;
+    text-shadow: 0 0 15px rgba(255, 179, 209, 0.5);
+}
+
+.typing-cursor::after {
+    content: '|';
+    animation: blink 1s infinite;
+    color: #ffb3d1;
+    margin-left: 5px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* The warp flash effect */
+#flash-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.flash-active {
+    opacity: 1 !important;
+}
+/* --- Milestone 3: Cinematic Focus Timeline --- */
+.scrollable {
+    overflow-y: auto;
+    height: 100vh;
+    width: 100%;
+    /* Smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch; 
+}
+.scrollable::-webkit-scrollbar {
+    display: none; 
+}
+
+.cinematic-timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25vh; /* Massive spacing so only one memory is the main focus at a time */
+    padding-bottom: 20vh;
+}
+
+.memory-card {
+    width: 85%;
+    max-width: 500px;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    
+    /* The blur and scale effect for inactive cards */
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    opacity: 0.2;
+    transform: scale(0.75);
+    filter: blur(5px);
+    
+    /* Smooth transition for when it comes into focus */
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* The magic class applied by JS when the card is in the center of the screen */
+.memory-card.active-memory {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+    background: rgba(25, 25, 35, 0.6);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 75, 145, 0.4);
+    box-shadow: 0 15px 40px rgba(255, 75, 145, 0.2);
+}
+
+.memory-date {
+    color: #ffb3d1;
+    font-family: 'Dancing Script', cursive;
+    font-size: 32px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255, 179, 209, 0.3);
+}
+
+.memory-title {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.memory-desc {
+    color: #b0b0c0;
+    font-size: 16px;
+    line-height: 1.6;
+}
+/* --- Milestone 4: Floating Glass Gallery --- */
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* The space for the 3D rotation to happen */
+.polaroid-wrapper {
+    width: 280px;
+    height: 350px;
+    perspective: 1000px; 
+    cursor: pointer;
+    /* Continuous floating animation */
+    animation: floatCard 6s ease-in-out infinite;
+}
+
+/* Stagger the floating so they don't all move at exactly the same time */
+.polaroid-wrapper:nth-child(2) { animation-delay: 1s; animation-duration: 7s; }
+.polaroid-wrapper:nth-child(3) { animation-delay: 2s; animation-duration: 8s; }
+.polaroid-wrapper:nth-child(4) { animation-delay: 1.5s; animation-duration: 6.5s; }
+
+@keyframes floatCard {
+    0%, 100% { transform: translateY(0px) rotate(-1deg); }
+    50% { transform: translateY(-15px) rotate(1deg); }
+}
+
+/* The card itself */
+.polaroid-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    /* A bouncy, smooth transition curve for the flip */
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+}
+
+/* What happens when Javascript adds the 'flipped' class */
+.polaroid-wrapper.flipped .polaroid-inner {
+    transform: rotateY(180deg) scale(1.1); /* Flips and slightly pops out at the user */
+    z-index: 50; 
+}
+
+/* Both sides share this base glass styling */
+.polaroid-front, .polaroid-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden; /* Hides the back side of the element when facing away */
+    border-radius: 15px;
+    background: rgba(25, 25, 35, 0.5);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+/* Image Placeholder Styling (Until you add real photos) */
+.polaroid-front img, .image-placeholder {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, rgba(255,75,145,0.1), rgba(255,255,255,0.05));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.4);
+    font-style: italic;
+}
+
+.polaroid-caption {
+    font-size: 18px;
+    color: #e0e0ff;
+    letter-spacing: 1px;
+}
+
+/* The back of the card (The Love Note) */
+.polaroid-back {
+    transform: rotateY(180deg); /* Starts flipped away from the camera */
+    background: rgba(255, 75, 145, 0.1); 
+    border: 1px solid rgba(255, 75, 145, 0.4);
+    box-shadow: 0 0 30px rgba(255, 75, 145, 0.2);
+    padding: 25px;
+}
+/* --- Milestone 5: Open When Letters --- */
+.envelopes-container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Glassmorphism Envelope Design */
+.envelope-wrapper {
+    width: 260px;
+    height: 170px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 75, 145, 0.3);
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Hover effect makes it float up */
+.envelope-wrapper:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(255, 75, 145, 0.3);
+    border: 1px solid rgba(255, 75, 145, 0.6);
+}
+
+/* Draws the envelope flap using CSS borders */
+.envelope-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-top: 85px solid rgba(255, 75, 145, 0.15);
+    border-left: 130px solid transparent;
+    border-right: 130px solid transparent;
+    border-bottom: 85px solid transparent;
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.envelope-label {
+    font-family: 'Dancing Script', cursive;
+    font-size: 28px;
+    color: #ffb3d1;
+    z-index: 2;
+    background: rgba(2, 4, 18, 0.7);
+    padding: 8px 20px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 75, 145, 0.4);
+}
+
+/* --- Letter Modal (Popup) Styling --- */
+#letter-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(2, 4, 18, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+#letter-modal.show-modal {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Realistic Lined Paper */
+.letter-paper {
+    width: 90%;
+    max-width: 500px;
+    min-height: 450px;
+    background-color: #fdfbf7;
+    border-radius: 8px;
+    padding: 60px 40px 40px 40px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    position: relative;
+    
+    /* Sliding animation */
+    transform: translateY(100px) scale(0.9);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Draws the blue notebook lines */
+    background-image: repeating-linear-gradient(transparent, transparent 31px, rgba(0, 100, 255, 0.1) 31px, rgba(0, 100, 255, 0.1) 32px);
+    background-position: 0 10px;
+}
+
+#letter-modal.show-modal .letter-paper {
+    transform: translateY(0) scale(1);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #ff4b91;
+}
+
+.letter-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 26px;
+    line-height: 32px;
+    color: #1a1a2e; /* Dark ink color */
+    white-space: pre-wrap; /* Respects line breaks in our Javascript */
+}
+/* --- Milestone 6: Heartbeat Button --- */
+.pulse-btn {
+    background: rgba(255, 75, 145, 0.3);
+    border: 1px solid #ff4b91;
+    animation: heartbeat 2s infinite;
+    padding: 15px 40px;
+    font-size: 18px;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 75, 145, 0.4); }
+    14% { transform: scale(1.08); box-shadow: 0 0 25px rgba(255, 75, 145, 0.7); }
+    28% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 75, 145, 0.4); }
+    42% { transform: scale(1.08); box-shadow: 0 0 25px rgba(255, 75, 145, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 75, 145, 0.4); }
+}
+/* --- Milestone 7: Grand Finale --- */
+#fireworks-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Above stars, below text */
+    pointer-events: none; /* Lets clicks pass through */
+}
+
+.finale-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    background: rgba(2, 4, 18, 0.4);
+    padding: 60px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 75, 145, 0.2);
+    box-shadow: 0 0 50px rgba(255, 75, 145, 0.1);
+}
