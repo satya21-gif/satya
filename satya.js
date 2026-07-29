@@ -6,8 +6,7 @@ const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 let stars = [];
 let numStars = 800;
-let warpSpeed = 0.5; // Normal slow rotation speed
-let isWarping = false;
+let warpSpeed = 0.5;
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -16,7 +15,6 @@ function resizeCanvas() {
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
-// Create stars with 3D coordinates
 for (let i = 0; i < numStars; i++) {
     stars.push({
         x: Math.random() * canvas.width - canvas.width / 2,
@@ -26,41 +24,57 @@ for (let i = 0; i < numStars; i++) {
 }
 
 function animateStars() {
-    ctx.fillStyle = "rgba(2, 4, 18, 0.8)"; // Slight trail effect
+    // Soft, light background trail
+    ctx.fillStyle = "rgba(253, 251, 247, 0.8)"; 
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
+    const time = Date.now(); // Get the current time for the heartbeat math
 
-    for (let star of stars) {
+    for (let i = 0; i < stars.length; i++) {
+        let star = stars[i];
         star.z -= warpSpeed;
 
-        // Reset star if it passes the camera
+        // Reset particle if it passes the camera
         if (star.z <= 0) {
             star.z = canvas.width;
             star.x = Math.random() * canvas.width - cx;
             star.y = Math.random() * canvas.height - cy;
         }
 
-        // 3D to 2D projection
         const perspective = canvas.width / star.z;
         const x = star.x * perspective + cx;
         const y = star.y * perspective + cy;
-        const radius = (1 - star.z / canvas.width) * 2.5;
+        const radius = (1 - star.z / canvas.width) * 3.5; 
 
-        // Draw star
         if (radius > 0) {
-            ctx.beginPath();
-            ctx.arc(x, y, radius, 0, Math.PI * 2);
-            // Stars get brighter as they get closer
-            ctx.fillStyle = `rgba(255, 255, 255, ${1 - (star.z / canvas.width)})`;
-            ctx.fill();
+            if (i % 10 === 0) {
+                // THE HEARTBEAT MATH: 
+                // Math.sin creates a wave that goes up and down. 
+                // We add 'i' so every heart beats at a slightly different time.
+                let pulse = 1 + Math.sin(time / 200 + i) * 0.3; 
+                let heartSize = radius * 8 * pulse; // Apply the pulse to the size
+                
+                drawHeart(ctx, x, y, heartSize, `rgba(255, 75, 145, ${1 - (star.z / canvas.width)})`);
+            } else {
+                // For the rest, draw elegant glowing pink dots
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 75, 145, ${0.7 - (star.z / canvas.width)})`;
+                
+                // Adds a beautiful soft glow to the dots
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = "#ffb3d1";
+                ctx.fill();
+                
+                // Reset shadow so it doesn't break everything else
+                ctx.shadowBlur = 0; 
+            }
         }
     }
     requestAnimationFrame(animateStars);
 }
-animateStars();
-
 // --- Scene Transitions & Logic ---
 function switchScene(hideId, showId) {
     document.getElementById(hideId).classList.remove("active");
@@ -96,39 +110,40 @@ function checkSecret() {
 }
 
 function triggerWarpSequence() {
-    
+    const music = document.getElementById("bg-music");
+    if (music) {
+        music.volume = 0.4;
+        music.play().catch(e => console.log("Music interaction required first."));
+    }
+
     document.getElementById("login-scene").classList.remove("active");
     
-    // Smoothly accelerate stars
     let acceleration = setInterval(() => {
         warpSpeed += 1.5;
         if (warpSpeed > 40) clearInterval(acceleration);
     }, 50);
 
-    // After 2.5 seconds of warp, flash the screen and slow down
     setTimeout(() => {
         const flash = document.getElementById("flash-overlay");
         flash.classList.add("flash-active");
         
         setTimeout(() => {
-            warpSpeed = 0.5; // Reset to calm speed
+            warpSpeed = 0.5;
             document.getElementById("login-scene").classList.add("hidden");
             document.getElementById("success-scene").classList.remove("hidden");
             document.getElementById("success-scene").classList.add("active");
             
-            // Fade out the white flash
             flash.classList.remove("flash-active");
             
-            // Start the poetry sequence after the welcome text
+            // 6.5 seconds for the cinematic signature before starting poetry
             setTimeout(() => {
-                document.getElementById("welcome-text").style.opacity = 0; // Fade out Welcome
+                document.getElementById("constellation-container").style.opacity = 0; 
                 setTimeout(() => {
-                    document.getElementById("welcome-text").classList.add("hidden");
+                    document.getElementById("constellation-container").classList.add("hidden");
                     document.getElementById("poetry-container").classList.remove("hidden");
-// Add this line right here:
-typePoetry();
+                    typePoetry();
                 }, 1500);
-            }, 3500);
+            }, 6500);
 
         }, 1000);
     }, 2500);
@@ -161,29 +176,22 @@ function resetGate() {
 // --- Timeline Scroll Animation Logic ---
 function startTimeline() {
     switchScene("success-scene", "timeline-scene");
-    
-    // Wait for the scene transition to finish, then start tracking scroll
     setTimeout(initScrollObserver, 1500); 
 }
 
-// This makes the timeline items blur, scale, and glow based on screen position
 function initScrollObserver() {
     const cards = document.querySelectorAll('.memory-card');
-
-    // rootMargin restricts the "active zone" to the middle of the screen
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Card is in the middle of the screen
                 entry.target.classList.add('active-memory');
             } else {
-                // Card has scrolled out of the middle
                 entry.target.classList.remove('active-memory');
             }
         });
     }, {
         root: null,
-        rootMargin: "-35% 0px -35% 0px", // The magic center-screen zone
+        rootMargin: "-35% 0px -35% 0px", 
         threshold: 0
     });
 
@@ -232,7 +240,8 @@ function typeLine(id, text, speed) {
         type();
     });
 }
-// --- Milestone 4: Gallery Logic ---
+
+// --- Gallery Logic ---
 function nextMilestone() {
     switchScene("timeline-scene", "gallery-scene");
     document.getElementById("gallery-scene").scrollTo({ top: 0, behavior: 'smooth' });
@@ -242,7 +251,7 @@ function flipCard(card) {
     card.classList.toggle('flipped');
 }
 
-// --- Milestone 5: Letters Logic ---
+// --- Letters Logic ---
 function nextMilestoneGallery() {
     switchScene("gallery-scene", "letters-scene");
     document.getElementById("letters-scene").scrollTo({ top: 0, behavior: 'smooth' });
@@ -263,11 +272,11 @@ function closeLetter() {
     document.getElementById("letter-modal").classList.remove("show-modal");
 }
 
-// Transition to the next milestone (100 Reasons)
 function nextMilestoneLetters() {
     switchScene("letters-scene", "reasons-scene");
 }
-// --- Milestone 6: 100 Reasons Logic ---
+
+// --- 100 Reasons Logic ---
 const reasonsList = [
     "Because of the way your eyes light up when you smile.",
     "Because you are my safest place in the whole world.",
@@ -275,7 +284,6 @@ const reasonsList = [
     "Because you make ordinary, boring moments feel extraordinary.",
     "Because of how you support my dreams and believe in me.",
     "Because I can be 100% myself around you."
-    // Add the rest of your reasons here inside quotes, separated by commas!
 ];
 
 let currentReasonCount = 1;
@@ -283,43 +291,36 @@ let currentReasonCount = 1;
 function generateNextReason() {
     const container = document.getElementById("reason-container");
     
-    // Fade out
     container.style.opacity = 0;
 
     setTimeout(() => {
         currentReasonCount++;
-        
-        // Loop back to the start if we run out of reasons in the list
         let listIndex = (currentReasonCount - 1) % reasonsList.length;
         
         document.getElementById("reason-number").innerText = "REASON #" + currentReasonCount;
         document.getElementById("reason-text").innerText = reasonsList[listIndex];
         
-        // Fade back in
         container.style.opacity = 1;
 
-        // Reveal the finale button after she clicks 5 times
         if (currentReasonCount >= 5) {
             document.getElementById("finale-btn").classList.remove("hidden");
         }
-    }, 500); // Waits for the CSS fade transition
+    }, 500); 
 }
-// --- Milestone 7: Grand Finale Logic ---
+
+// --- Grand Finale & Fireworks ---
 function startFinale() {
     switchScene("reasons-scene", "finale-scene");
     
-    // Start the fireworks slightly after the text starts fading in
     setTimeout(() => {
         resizeFwCanvas();
         animateFireworks();
         
-        // Launch fireworks automatically
         setInterval(createFirework, 600);
-        setInterval(createFirework, 800); // A second launcher for a fuller sky
+        setInterval(createFirework, 800); 
     }, 1500);
 }
 
-// --- Fireworks Engine ---
 const fwCanvas = document.getElementById("fireworks-canvas");
 const fwCtx = fwCanvas.getContext("2d");
 let fireworks = [];
@@ -336,7 +337,6 @@ class Particle {
         this.x = x;
         this.y = y;
         this.color = color;
-        // Random velocity for spherical explosion
         const angle = Math.random() * Math.PI * 2;
         const speed = Math.random() * 5 + 1;
         this.vx = Math.cos(angle) * speed;
@@ -352,7 +352,7 @@ class Particle {
         this.vy += this.gravity;
         this.x += this.vx;
         this.y += this.vy;
-        this.alpha -= 0.015; // Fades out over time
+        this.alpha -= 0.015; 
     }
 
     draw() {
@@ -367,10 +367,9 @@ class Particle {
 
 function createFirework() {
     const x = Math.random() * fwCanvas.width;
-    const y = Math.random() * (fwCanvas.height / 2); // Explode in top half of screen
+    const y = Math.random() * (fwCanvas.height / 2); 
     const color = colors[Math.floor(Math.random() * colors.length)];
     
-    // Create 40 particles per explosion
     for (let i = 0; i < 40; i++) {
         fireworks.push(new Particle(x, y, color));
     }
@@ -380,7 +379,6 @@ function animateFireworks() {
     requestAnimationFrame(animateFireworks);
     fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
     
-    // Loop backwards so we can remove faded particles safely
     for (let i = fireworks.length - 1; i >= 0; i--) {
         fireworks[i].update();
         fireworks[i].draw();
@@ -390,27 +388,21 @@ function animateFireworks() {
         }
     }
 }
-// --- Countdown Timer Logic ---
 
-// CHANGE THIS DATE TO HER BIRTHDAY OR YOUR ANNIVERSARY
+// --- Countdown Timer Logic ---
 const targetDate = new Date("October 15, 2026 00:00:00").getTime(); 
 
 function revealTimer() {
-    // Hide the button
     document.getElementById("reveal-timer-btn").classList.add("hidden");
-    
-    // Show the timer container
     const timerContainer = document.getElementById("countdown-container");
     timerContainer.classList.remove("hidden");
     
-    // Slight delay to allow the CSS to apply before fading it in smoothly
     setTimeout(() => {
         timerContainer.style.opacity = 1;
     }, 50);
 
-    // Start updating the clock every 1 second
     setInterval(updateCountdown, 1000);
-    updateCountdown(); // Run immediately so it doesn't wait 1 second to appear
+    updateCountdown(); 
 }
 
 function updateCountdown() {
@@ -423,13 +415,52 @@ function updateCountdown() {
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        // Add a leading zero if the number is less than 10 (e.g., "09" instead of "9")
         document.getElementById("cd-days").innerText = days < 10 ? "0" + days : days;
         document.getElementById("cd-hours").innerText = hours < 10 ? "0" + hours : hours;
         document.getElementById("cd-mins").innerText = minutes < 10 ? "0" + minutes : minutes;
         document.getElementById("cd-secs").innerText = seconds < 10 ? "0" + seconds : seconds;
     } else {
-        // What happens when the countdown hits zero!
         document.getElementById("countdown-container").innerHTML = "<h2 class='glow-text'>The day is finally here! ❤️</h2>";
     }
+}
+
+// --- Send Love Back Logic ---
+function goToReplyScene() {
+    switchScene("finale-scene", "reply-scene");
+}
+
+function sendLove(e) {
+    e.preventDefault(); 
+    
+    const btn = document.getElementById("send-btn");
+    const status = document.getElementById("form-status");
+    const form = document.getElementById("love-form");
+    
+    btn.innerText = "Sending across the universe... ✨";
+    const formData = new FormData(form);
+    
+    fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            btn.innerText = "Sent! 💌";
+            btn.style.background = "rgba(46, 213, 115, 0.4)"; 
+            btn.style.borderColor = "rgba(46, 213, 115, 0.8)";
+            status.innerText = "Your message is flying through the stars!";
+            status.style.display = "block";
+            form.reset();
+        } else {
+            btn.innerText = "Try Again";
+            status.innerText = "Oops! Something went wrong in the universe.";
+            status.style.display = "block";
+        }
+    })
+    .catch(error => {
+        btn.innerText = "Try Again";
+        status.innerText = "Oops! Something went wrong.";
+        status.style.display = "block";
+    });
 }

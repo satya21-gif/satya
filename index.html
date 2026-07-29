@@ -6,10 +6,9 @@
     <title>Our Universe ❤️</title>
     <link rel="stylesheet" href="satya.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
-
 </head>
 <body>
-    <!-- The Flash Effect Overlay (This creates the hyperspace jump) -->
+    <!-- Hyperspace Jump Overlay -->
     <div id="flash-overlay"></div>
 
     <!-- Background Stars -->
@@ -29,8 +28,9 @@
             <h2>Welcome, Kalyani ❤️</h2>
             <p>Some places are meant for everyone.<br>This one isn't.</p>
             
-            <div id="input-area">
-                <input type="password" id="secret-word" placeholder="Enter our secret word">
+           <div id="input-area">
+                <!-- Added autocomplete="new-password" to stop the browser from pre-filling it -->
+                <input type="password" id="secret-word" placeholder="Enter our secret word" autocomplete="new-password">
                 <button class="btn unlock-btn" onclick="checkSecret()">Unlock My Universe ❤️</button>
             </div>
             
@@ -39,10 +39,28 @@
         </div>
     </div>
 
-    <!-- Scene 3: Success & Poetry -->
+    <!-- Scene 3: Success & Constellation Welcome -->
     <div id="success-scene" class="scene hidden">
-        <h1 class="glow-text fade-text" id="welcome-text">Welcome, Kalyani ❤️</h1>
         
+        <!-- The Constellation Signature Welcome -->
+        <div id="constellation-container" class="fade-text">
+            <svg class="signature-svg" viewBox="0 0 500 200">
+                <text x="50%" y="55%" text-anchor="middle" dominant-baseline="middle" class="signature-text">Kalyani</text>
+            </svg>
+            
+            <!-- Glowing Constellation Stars -->
+            <div class="constellation-node" style="top: 30%; left: 20%; animation-delay: 0.5s;"></div>
+            <div class="constellation-node" style="top: 45%; left: 35%; animation-delay: 1.5s;"></div>
+            <div class="constellation-node" style="top: 35%; left: 65%; animation-delay: 2.5s;"></div>
+            <div class="constellation-node" style="top: 55%; left: 80%; animation-delay: 3.2s;"></div>
+
+            <!-- Elegant Subtitle -->
+            <h2 class="glow-text fade-text delay-2" style="font-size: 22px; margin-top: 10px; color: #e0e0ff; font-family: 'Segoe UI', sans-serif; letter-spacing: 5px; text-transform: uppercase;">
+                Welcome to my Universe
+            </h2>
+        </div>
+        
+        <!-- Poetry Container -->
         <div id="poetry-container" class="hidden">
              <p class="poetry" id="line1"></p>
              <p class="poetry" id="line2"></p>
@@ -50,51 +68,69 @@
              <p class="poetry" id="line4"></p>
              <p class="poetry highlight-poetry" id="line5"></p>
     
-    <button class="btn hidden" id="explore-btn" onclick="startTimeline()" style="margin-top: 40px; opacity: 0; transition: opacity 2s;">
-        Explore Our Universe
-    </button>
+            <button class="btn hidden" id="explore-btn" onclick="startTimeline()" style="margin-top: 40px; opacity: 0; transition: opacity 2s;">
+                Explore Our Universe
+            </button>
+        </div>
     </div>
-    </div>
-<!-- Scene 4: The Cinematic Timeline -->
+
+    <!-- Scene 4: The Cinematic Timeline -->
     <div id="timeline-scene" class="scene hidden scrollable">
-        <!-- Spacer pushes the first item down so it starts in the middle of the screen -->
         <div style="height: 30vh;"></div> 
         
         <h2 class="glow-text" style="font-size: 42px; margin-bottom: 10vh;">Our Constellation ❤️</h2>
 
-        <div class="cinematic-timeline">
+    <div class="cinematic-timeline">
             <!-- Memory 1 -->
             <div class="memory-card">
+                <div class="floating-icon">✨</div>
                 <div class="memory-date">The Beginning</div>
-                <h3 class="memory-title">When We First Met</h3>
-                <p class="memory-desc">The day the stars aligned and our story began. A moment I'll never forget.</p>
+                <div class="memory-tag">📍 College Corridors</div>
+                <h3 class="memory-title">Where Our Story Began</h3>
+                <p class="memory-desc">Every great love story has a beginning. Ours didn’t start with fireworks, but with the quiet magic of college days. In a sea of people, my eyes always found you.</p>
             </div>
             
             <!-- Memory 2 -->
             <div class="memory-card">
-                <div class="memory-date">Our First Date</div>
-                <h3 class="memory-title">Coffee & Conversations</h3>
-                <p class="memory-desc">Hours felt like seconds. I knew right then that you were someone special.</p>
-            </div>
-            
-            <!-- Memory 3 -->
-            <div class="memory-card">
-                <div class="memory-date">The Day I Knew</div>
-                <h3 class="memory-title">Falling For You</h3>
-                <p class="memory-desc">Realizing that my favorite place in the whole universe was simply wherever you were.</p>
+                <div class="floating-icon">🛵</div>
+                <div class="memory-date">After Class</div>
+                <div class="memory-tag">🛵 That First Ride</div>
+                <h3 class="memory-title">The Bike Lift</h3>
+                <p class="memory-desc">You gave me a lift on your bike, and suddenly, time seemed to slow down. The wind, the nearness, the unspoken words—it was a simple ride that completely changed the direction of my heart.</p>
             </div>
 
+            <!-- Memory 3 -->
+            <div class="memory-card">
+                <div class="floating-icon">💭</div>
+                <div class="memory-date">The Getaway</div>
+                <div class="memory-tag">💭 Late Night Dreams</div>
+                <h3 class="memory-title">Plotting Our Escape</h3>
+                <p class="memory-desc">Whispered plans of ocean waves and long bike rides. The excitement wasn't just about reaching the beach; it was about the thrill of finally having a beautiful adventure that belonged only to us.</p>
+            </div>
+            
             <!-- Memory 4 -->
             <div class="memory-card">
+                <div class="floating-icon">🌊</div>
+                <div class="memory-date">A Perfect Day</div>
+                <div class="memory-tag">🌊 The Ocean Breeze</div>
+                <h3 class="memory-title">Saltwater & Smiles</h3>
+                <p class="memory-desc">Sharing lunch with the sound of crashing waves in the background. Seeing your beautiful smile light up against the ocean breeze is a picture I have permanently framed in my mind.</p>
+            </div>
+
+            <!-- Memory 5 -->
+            <div class="memory-card">
+                <div class="floating-icon">💖</div>
                 <div class="memory-date">Forever</div>
+                <div class="memory-tag">❤️ Our Future</div>
                 <h3 class="memory-title">To Be Continued...</h3>
-                <p class="memory-desc">Every single day with you becomes my new favorite memory.</p>
+                <p class="memory-desc">From college corridors to endless sandy shores, every chapter with you is better than the last. I am so deeply in love with our journey, and I can't wait for all the rides still to come.</p>
             </div>
         </div>
         
-        <div style="height: 20vh;"></div> <!-- Spacer before the button -->
+        <div style="height: 20vh;"></div>
         <button class="btn" onclick="nextMilestone()" style="margin: 0 auto 100px auto; display: block;">Open the Memory Gallery</button>
     </div>
+
     <!-- Scene 5: The Memory Gallery -->
     <div id="gallery-scene" class="scene hidden scrollable">
         <div style="height: 10vh;"></div>
@@ -103,11 +139,9 @@
         <p style="color: #b0b0c0; margin-bottom: 50px; font-size: 18px;">Tap a memory to see what's hidden behind it...</p>
 
         <div class="gallery-container">
-            <!-- Polaroid 1 -->
             <div class="polaroid-wrapper" onclick="flipCard(this)">
                 <div class="polaroid-inner">
                     <div class="polaroid-front">
-                        <!-- You will replace this placeholder with an actual <img> tag later -->
                         <div class="image-placeholder">Your Photo Here</div>
                         <div class="polaroid-caption">That Special Day</div>
                     </div>
@@ -117,7 +151,6 @@
                 </div>
             </div>
 
-            <!-- Polaroid 2 -->
             <div class="polaroid-wrapper" onclick="flipCard(this)">
                 <div class="polaroid-inner">
                     <div class="polaroid-front">
@@ -130,7 +163,6 @@
                 </div>
             </div>
 
-            <!-- Polaroid 3 -->
             <div class="polaroid-wrapper" onclick="flipCard(this)">
                 <div class="polaroid-inner">
                     <div class="polaroid-front">
@@ -143,7 +175,6 @@
                 </div>
             </div>
             
-            <!-- Polaroid 4 -->
             <div class="polaroid-wrapper" onclick="flipCard(this)">
                 <div class="polaroid-inner">
                     <div class="polaroid-front">
@@ -159,7 +190,8 @@
         
         <button class="btn" onclick="nextMilestoneGallery()" style="margin: 80px auto 100px auto; display: block;">Open the Love Letters</button>
     </div>
-    <!-- Scene 5: Love Letters -->
+
+    <!-- Scene 6: Love Letters -->
     <div id="letters-scene" class="scene hidden scrollable">
         <div style="height: 10vh;"></div>
         
@@ -167,17 +199,14 @@
         <p style="color: #b0b0c0; margin-bottom: 60px; font-size: 18px;">Words for you when I can't be right there beside you.</p>
 
         <div class="envelopes-container">
-            <!-- Envelope 1 -->
             <div class="envelope-wrapper" onclick="openLetter('miss-me')">
                 <div class="envelope-label">You Miss Me</div>
             </div>
             
-            <!-- Envelope 2 -->
             <div class="envelope-wrapper" onclick="openLetter('sad')">
                 <div class="envelope-label">You Feel Sad</div>
             </div>
             
-            <!-- Envelope 3 -->
             <div class="envelope-wrapper" onclick="openLetter('hug')">
                 <div class="envelope-label">You Need a Hug</div>
             </div>
@@ -190,11 +219,11 @@
     <div id="letter-modal">
         <div class="letter-paper">
             <div class="close-btn" onclick="closeLetter()">✖</div>
-            <!-- The letter text will be injected here by Javascript -->
             <div id="letter-content" class="letter-text"></div>
         </div>
     </div>
-    <!-- Scene 6: 100 Reasons -->
+
+    <!-- Scene 7: 100 Reasons -->
     <div id="reasons-scene" class="scene hidden">
         <h2 class="glow-text">100 Reasons Why ❤️</h2>
         <p style="color: #b0b0c0; margin-bottom: 30px; font-size: 18px;">Some of the infinite reasons I fell for you.</p>
@@ -206,14 +235,13 @@
 
         <button class="btn pulse-btn" onclick="generateNextReason()">Show me another reason</button>
         
-        <!-- This button stays hidden until she reads at least a few reasons -->
         <button id="finale-btn" class="btn hidden" onclick="startFinale()" style="margin-top: 40px; display: block; margin-left: auto; margin-right: auto; background: transparent; border-color: rgba(255,255,255,0.2);">
             Unlock the Final Surprise
         </button>
     </div>
-    <!-- Scene 7: The Grand Finale -->
+
+    <!-- Scene 8: The Grand Finale -->
     <div id="finale-scene" class="scene hidden">
-        <!-- Fireworks Canvas (Sits behind the text, in front of the stars) -->
         <canvas id="fireworks-canvas"></canvas>
         
         <div class="finale-content">
@@ -225,7 +253,6 @@
                 FOREVER & ALWAYS
             </p>
 
-            <!-- HIDDEN COUNTDOWN SECTION -->
             <button id="reveal-timer-btn" class="btn fade-text delay-3" onclick="revealTimer()" style="margin-top: 40px; background: transparent; border: 1px solid #ff4b91;">
                 Reveal Our Next Milestone
             </button>
@@ -239,9 +266,30 @@
                     <div class="time-box"><span id="cd-secs">00</span><p>Sec</p></div>
                 </div>
             </div>
+            
+            <button class="btn fade-text delay-4" onclick="goToReplyScene()" style="margin-top: 60px;">
+                I have something to tell you...
+            </button>
         </div>
     </div>
-    
+
+    <!-- Scene 9: Send Love Back -->
+    <div id="reply-scene" class="scene hidden">
+        <h2 class="glow-text">Message to the Stars 🌌</h2>
+        <p style="color: #b0b0c0; margin-bottom: 40px; font-size: 18px;">Send a message straight to my heart.</p>
+        
+        <form id="love-form" onsubmit="sendLove(event)" class="glass-card" style="display: flex; flex-direction: column; gap: 20px;">
+            <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+            <textarea name="message" id="love-message" rows="5" placeholder="Write something sweet..." required></textarea>
+            <button type="submit" class="btn unlock-btn" id="send-btn">Send My Love ❤️</button>
+            <p id="form-status" style="display: none; color: #ffb3d1; margin-top: 10px; font-weight: bold;"></p>
+        </form>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bg-music" loop>
+        <source src="music/bgm.mp3" type="audio/mpeg">
+    </audio>
 
     <script src="satya.js"></script>
 </body>
